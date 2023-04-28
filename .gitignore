@@ -40,8 +40,6 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
-#assets
-src/assets/
 
 # fastlane
 #
