@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 let globalCategories=[];
 const mySkills=({navigation})=>{
+  
   return(
     <LinearGradient
     colors={['#4c669f', '#3b5998', '#192f6a']}
