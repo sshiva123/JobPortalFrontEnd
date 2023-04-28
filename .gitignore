@@ -41,7 +41,7 @@ npm-debug.log
 yarn-error.log
 
 #assets
-assets/
+src/assets/
 
 # fastlane
 #
