@@ -44,7 +44,7 @@ const SplashScreen = ({ navigation }) => {
         // do something with session
         console.log(session)
         if(session!=undefined && session!=''){
-          clearTimeout(timer);
+          //clearTimeout(timer);
           console.log("Session is not undefined.Fetching")
            fetch('http://'+address+':3000/detail/'+session, {
         method: 'GET',
