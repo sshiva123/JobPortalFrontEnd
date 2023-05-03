@@ -12,13 +12,13 @@ let selectedCategory='';
 
 const MySkills=({navigation})=>{
   const [userData2,setUserData2]=useState({});
-  const [usedSkills,setUsedSkills]=useState([]);
+  const [usedSkills,setUsedSkills]=useState();
   const data= useSelector(state=>{
     return state.user.userData;
   })
     async function getdata()
     {
-      console.log("Global= "+globalCategories)
+      
       setUserData2(data);
       setUsedSkills(data.skills);
     } 
@@ -27,8 +27,8 @@ const MySkills=({navigation})=>{
       let returns=data?data.skills.map(skill=>{
           return(<View style={{flexDirection:'row',flexGrow:1,height:60,fontSize:20,width:"30%",margin:5,borderWidth:1,borderRadius:5,backgroundColor:'white',alignItems:'center',justifyContent:"space-between"}} key={skill}>
             <Text style={{flex:3,marginHorizontal:5}}>{skill}</Text>
-            <TouchableOpacity style={{flex:1,alignItems:'flex-end'}}>
-            <Icon name="close-outline" style={{fontSize:40}} />
+            <TouchableOpacity style={{flex:1,alignItems:'flex-end'}} onPress={()=>{removeSkill(skill)}}>
+            <Icon name="close-circle-outline" style={{fontSize:40}} />
             </TouchableOpacity>
           </View>)
       }):<></>
@@ -39,16 +39,15 @@ const MySkills=({navigation})=>{
       let returns;
       let data2= usedSkills?usedSkills.find(skill=>skill.name===selectedCategory):null;
         let data3= globalCategories?globalCategories.find(skill2=>skill2.name===selectedCategory):null;
-        console.log("data2=")
-        console.log(data2);
-       if(data2 && data3){
-          let filteredSkills=data3.skills.filter(item=>!data2.skills.includes(item));
+        
+       if(data3){
+          let filteredSkills=data2?data3.skills.filter(item=>!data2.skills.includes(item)):data3.skills;
           console.log(filteredSkills);
           returns=filteredSkills?filteredSkills.map(skill=>{
             return(<View style={{flexDirection:'row',flexGrow:1,height:60,fontSize:20,width:"30%",margin:5,borderWidth:1,borderRadius:5,backgroundColor:'white',alignItems:'center',justifyContent:"space-between"}} key={skill}>
             <Text style={{flex:3,marginHorizontal:5}}>{skill}</Text>
-            <TouchableOpacity style={{flex:1,alignItems:'flex-end'}}>
-            <Icon name="close-outline" style={{fontSize:40}} />
+            <TouchableOpacity style={{flex:1,alignItems:'flex-end'}} onPress={()=>{addSkill(skill)}}>
+            <Icon name="add-circle-outline" style={{fontSize:40}} />
             </TouchableOpacity>
           </View>)
           }):<></>
@@ -58,6 +57,45 @@ const MySkills=({navigation})=>{
           returns=<></>
         }
         return returns; 
+      }
+    async function removeSkill(name){
+        let findCategorySkills=usedSkills?usedSkills.find(skill=>skill.name==selectedCategory):null;
+        if(!findCategorySkills){
+          setUsedSkills([...usedSkills,{name:selectedCategory,skills:[]}]);
+          findCategorySkills=usedSkills.find(skill=>skill.name==selectedCategory);
+        }
+        let skills=findCategorySkills.skills;
+        
+        skills=skills.filter(skill=>skill!==name);
+        const newData=[...usedSkills];
+        const foundIndex=newData.findIndex(item=>item.name==selectedCategory);
+        newData[foundIndex].skills=skills;
+        setUsedSkills(newData);
+
+    }
+    async function addSkill(name){
+      let temp=[...usedSkills];
+      let findCategorySkills=usedSkills?usedSkills.find(skill=>skill.name==selectedCategory):null;
+      console.log(findCategorySkills)
+        if(!findCategorySkills){
+          console.log("yha samma aaxa")
+           temp=[...usedSkills,{"name":selectedCategory,"skills":[]}]
+          
+          findCategorySkills=await temp.find(skill=>skill.name==selectedCategory);
+        }
+       
+        let skills=findCategorySkills?findCategorySkills.skills:[];
+        skills=skills.filter(skill=>skill!==name);
+        skills=[...skills,name];
+        const newData=temp.map(skill=>{
+          if(skill.name==selectedCategory){
+            return ({name:skill.name,skills:skills})
+          }
+          return skill;
+        })
+        console.log("new data= "+newData)
+        console.log(newData)
+        setUsedSkills(newData);
     }
     useEffect(()=>{
     getdata();
@@ -99,7 +137,7 @@ const ListCategories=({navigation})=>{
  async function getCategories(){
  let result= await fetch('http://'+address+':3000/categories');
 let data= await result.json();
-    console.log(data)
+   
  
   setCategories(data.categories);
   globalCategories=data.categories;
