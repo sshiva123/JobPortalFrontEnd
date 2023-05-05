@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,ActivityIndicator, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View,ActivityIndicator, TouchableOpacity,Button, Alert } from 'react-native'
 import React,{useEffect,useState} from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import address from '../../address'
@@ -6,6 +6,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch,useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
+import { onBackPress } from '../components/backPressHandler';
+import { addUser } from '../store/slices/userSlice';
 let globalCategories=[];
 let selectedCategory='';
 
@@ -13,20 +15,23 @@ let selectedCategory='';
 const MySkills=({navigation})=>{
   const [userData2,setUserData2]=useState({});
   const [usedSkills,setUsedSkills]=useState();
-  const data= useSelector(state=>{
+  const [submit,setSubmit]=useState(false);
+  const dispatch = useDispatch();
+  data= useSelector(state=>{
     return state.user.userData;
   })
+  
     async function getdata()
     {
-      
+     
       setUserData2(data);
       setUsedSkills(data.skills);
     } 
     function categorySkillsDisplay(){
       let data= usedSkills?usedSkills.find(skill=>skill.name===selectedCategory):null;
       let returns=data?data.skills.map(skill=>{
-          return(<View style={{flexDirection:'row',flexGrow:1,height:60,fontSize:20,width:"30%",margin:5,borderWidth:1,borderRadius:5,backgroundColor:'white',alignItems:'center',justifyContent:"space-between"}} key={skill}>
-            <Text style={{flex:3,marginHorizontal:5}}>{skill}</Text>
+          return(<View style={{flexDirection:'row',flexGrow:1,height:60,fontSize:20,width:"30%",margin:5,borderWidth:1,borderRadius:5,backgroundColor:'#009cb8',alignItems:'center',justifyContent:"space-between"}} key={skill}>
+            <Text style={{flex:3,marginHorizontal:5,fontWeight:'bold',color:'white'}}>{skill}</Text>
             <TouchableOpacity style={{flex:1,alignItems:'flex-end'}} onPress={()=>{removeSkill(skill)}}>
             <Icon name="close-circle-outline" style={{fontSize:40}} />
             </TouchableOpacity>
@@ -42,10 +47,10 @@ const MySkills=({navigation})=>{
         
        if(data3){
           let filteredSkills=data2?data3.skills.filter(item=>!data2.skills.includes(item)):data3.skills;
-          console.log(filteredSkills);
+          console.log("filtered skills"+filteredSkills);
           returns=filteredSkills?filteredSkills.map(skill=>{
-            return(<View style={{flexDirection:'row',flexGrow:1,height:60,fontSize:20,width:"30%",margin:5,borderWidth:1,borderRadius:5,backgroundColor:'white',alignItems:'center',justifyContent:"space-between"}} key={skill}>
-            <Text style={{flex:3,marginHorizontal:5}}>{skill}</Text>
+            return(<View style={{flexDirection:'row',flexGrow:1,height:60,fontSize:20,width:"30%",margin:5,borderWidth:1,borderRadius:5,backgroundColor:'tomato',alignItems:'center',justifyContent:"space-between",borderBottomWidth:2}} key={skill}>
+            <Text style={{flex:3,marginHorizontal:5,fontWeight:'bold',color:'white'}}>{skill}</Text>
             <TouchableOpacity style={{flex:1,alignItems:'flex-end'}} onPress={()=>{addSkill(skill)}}>
             <Icon name="add-circle-outline" style={{fontSize:40}} />
             </TouchableOpacity>
@@ -59,17 +64,20 @@ const MySkills=({navigation})=>{
         return returns; 
       }
     async function removeSkill(name){
+        let temp=[...usedSkills];
         let findCategorySkills=usedSkills?usedSkills.find(skill=>skill.name==selectedCategory):null;
         if(!findCategorySkills){
-          setUsedSkills([...usedSkills,{name:selectedCategory,skills:[]}]);
+          setUsedSkills([...usedSkills,{"name":selectedCategory,"skills":[]}]);
           findCategorySkills=usedSkills.find(skill=>skill.name==selectedCategory);
         }
         let skills=findCategorySkills.skills;
-        
         skills=skills.filter(skill=>skill!==name);
-        const newData=[...usedSkills];
-        const foundIndex=newData.findIndex(item=>item.name==selectedCategory);
-        newData[foundIndex].skills=skills;
+       const newData=temp.map(skill=>{
+          if(skill.name==selectedCategory){
+            return ({name:skill.name,skills:skills})
+          }
+          return skill;
+        })
         setUsedSkills(newData);
 
     }
@@ -78,12 +86,9 @@ const MySkills=({navigation})=>{
       let findCategorySkills=usedSkills?usedSkills.find(skill=>skill.name==selectedCategory):null;
       console.log(findCategorySkills)
         if(!findCategorySkills){
-          console.log("yha samma aaxa")
            temp=[...usedSkills,{"name":selectedCategory,"skills":[]}]
-          
           findCategorySkills=await temp.find(skill=>skill.name==selectedCategory);
         }
-       
         let skills=findCategorySkills?findCategorySkills.skills:[];
         skills=skills.filter(skill=>skill!==name);
         skills=[...skills,name];
@@ -93,12 +98,42 @@ const MySkills=({navigation})=>{
           }
           return skill;
         })
-        console.log("new data= "+newData)
-        console.log(newData)
         setUsedSkills(newData);
     }
+    
+    async function handleSubmit(){
+      let request=await fetch('http://'+address+':3000/candidates/'+userData2._id, {
+        method: 'PATCH',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+       body: JSON.stringify({"skills":usedSkills}),
+      }).then((response) => response.json()).then(data=>{
+        if (data.message=="Success"){
+          dispatch(addUser(data.user));
+        }else{     
+          Alert("Failed")
+        }
+        getdata();
+        setSubmit(false);
+      })
+    }
+
+    //function to stop user form going back when request is called.... only works on android emulator .... DOESNOT SEEM TO WORK ON WSA
+    function handleBackPress(){ 
+      if(!submit){
+        console.log("going back")
+        navigation.goBack();
+        return true;
+      }else{
+        console.log("doing work")
+      }
+    }
     useEffect(()=>{
-    getdata();
+      onBackPress(handleBackPress);
+      getdata();
+
   },[])
   return(
     userData2 && data ? (
@@ -106,7 +141,8 @@ const MySkills=({navigation})=>{
         colors={['#4c669f', '#3b5998', '#192f6a']}
         style={{flex:1}}
       >
-            <View style={{flex:1}}>
+        
+            <View style={{flex:5}}>
               <Text style={{fontSize:20}}> Your Skills:</Text>
               <ScrollView style={{flex:1}} contentContainerStyle={{flexDirection:'row',flexWrap:'wrap',justifyContent:'flex-start'}} >
                   {
@@ -114,7 +150,7 @@ const MySkills=({navigation})=>{
                   }
               </ScrollView>
             </View>
-            <View style={{flex:1}}>
+            <View style={{flex:5}}>
               <Text style={{fontSize:20}}> Add Skills:</Text>
               <ScrollView style={{flex:1}} contentContainerStyle={{flexDirection:'row',flexWrap:'wrap',justifyContent:'flex-start'}}>
                   {
@@ -122,6 +158,12 @@ const MySkills=({navigation})=>{
                   }
               </ScrollView>
             </View>
+            <View style={{flex:1}}>
+                  <TouchableOpacity  onPress={()=>{  setSubmit(true); handleSubmit();}} style={{flex:1,margin:10,alignItems:'center',justifyContent:'center',backgroundColor:'#009CB8',borderRadius:10}} ><Text style={{fontSize:30}}>Submit</Text></TouchableOpacity>
+            </View>
+            {submit?<View style={{elevation:3, position:'absolute' , width:'100%',height:'100%',backgroundColor:'rgba(141, 141, 141,0.5)',alignItems:'center',justifyContent:'center'}}>
+          <ActivityIndicator size={100} color={'white'} />
+        </View>:<></>}
         </LinearGradient>
     ) : (
       <View>{console.log("nodata found")}
@@ -156,7 +198,7 @@ let data= await result.json();
             return(
             <LinearGradient key={cdata.name} 
             //colors={['tomato', 'tomato','tomato', '#ffbe00']} 
-            colors={['brown','brown',  'tomato']}
+            colors={['#009CB8','#009CB8','#3795e0']}
               start={{ x: 0, y: 0.5 }}
             end={{ x: 1, y: 0.5 }} style={{height:60,width:'95%',borderRadius:20,margin:10,borderWidth:2}}>
             <TouchableOpacity  onPress={()=>{selectedCategory=cdata.name;navigation.navigate("mySkills")}}  style={{flex:1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
