@@ -6,5 +6,4 @@ const onBackPress = (callback) => {
     BackHandler.removeEventListener('hardwareBackPress', callback);
   };
 };
-
 export {onBackPress};
