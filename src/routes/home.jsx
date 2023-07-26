@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { View, Text, TextInput,StyleSheet,ScrollView,TouchableOpacity, Dimensions,Image} from 'react-native';
+import { View, Text, TextInput,StyleSheet,ScrollView,TouchableOpacity, Dimensions,Image, ActivityIndicator} from 'react-native';
  import { useDispatch,useSelector } from 'react-redux';
  import { addUser } from '../store/slices/userSlice';
  import EncryptedStorage from 'react-native-encrypted-storage';
@@ -14,18 +14,30 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 import Job from './job'
 import { createStackNavigator } from '@react-navigation/stack';
+import address from '../../address';
 //import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const HomeScreen = ({navigation},async) => {
+    
     const dispatch = useDispatch();
     const [search, setSearch] = useState('');
+    const [recommendedJobs,setRecommendedJobs]=useState([]);
     const data=  useSelector(state=>{
       return state.user.userData;
     })
+   async function getRecommended(){
+      const rec=await fetch('http://'+address+':3000/jobs/recommended/'+data._id);
+      const recJson=await rec.json();
+      setRecommendedJobs(recJson);
+      return;
+    }
+    
     function searchF(){
       console.log("searching "+search);
     }
-    
+    useEffect(()=>{
+      getRecommended();
+    },[])
     return (
     <ScrollView style={{flex:1}}  contentContainerStyle={{}}>
      
@@ -59,7 +71,14 @@ const HomeScreen = ({navigation},async) => {
         <TabNavigatorHome style={{flex:1}}/>
       </View>
      </View>
-    <JobComponentLarge navigation={navigation}/>
+     
+     <Text style={{fontSize:23,fontWeight:'bold',width:'95%',alignSelf:'center'}}>Recommended</Text>
+     {
+      recommendedJobs.jobs?recommendedJobs.jobs.map(recommendedJob=>{
+        return(<JobComponentLarge key={recommendedJob._id} navigation={navigation} jobData={recommendedJob}/>)
+      }):<ActivityIndicator />
+     }
+    
     </ScrollView>
     );
   };

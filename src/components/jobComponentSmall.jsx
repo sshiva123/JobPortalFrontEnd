@@ -1,4 +1,4 @@
-import { StyleSheet,Dimensions, Text, View,Image } from 'react-native'
+import { StyleSheet,Dimensions, Text, View,Image,TouchableOpacity } from 'react-native'
 import React from 'react'
 import { useRoute } from '@react-navigation/native';
 import { categoriesData } from './categories';
@@ -18,11 +18,11 @@ const getImageSource=()=>{
   
 }
   return (
-    <View style={styles.mainView}>
-
-      <View style={styles.topView} >
-        
-      <Image style={{width:'100%',height:'70%'}} source={getImageSource()} />
+    <TouchableOpacity onPress={()=>{
+      navigation.navigate('Jobs',{screen:"JobDisplay",params:{job:job}}) 
+    }} style={styles.mainView}>
+      <View style={styles.topView} > 
+      <Image style={{width:'100%',height:'85%'}} source={getImageSource()} />
       <View style={{position:'absolute',bottom:0,alignSelf:'center'}}>
       <Avatar rounded size={80} source={{uri:job.companyData.displayPicture}} avatarStyle={{borderWidth:4 ,borderColor:'white' }}/>
       </View>
@@ -30,7 +30,7 @@ const getImageSource=()=>{
       <View style={styles.bottomView}>
         <Text>{job.title}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -38,11 +38,12 @@ const styles = StyleSheet.create({
     mainView:{
         alignSelf:'center',
         margin:10,
-        width:'45%',
+        width:'40%',
         height:140,
         borderRadius:5,
         borderColor:'gray',
-        backgroundColor:'white'
+        backgroundColor:'#f2f2f2',
+        overflow:'hidden'
     },
     topView:{
         flex:3,

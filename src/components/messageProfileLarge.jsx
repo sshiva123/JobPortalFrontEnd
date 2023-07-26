@@ -9,7 +9,7 @@ const MessageProfileLarge = ({navigation,userData,conversation,lastMessage}) => 
     
     <TouchableOpacity onPress={()=>{navigation.navigate("Message",{name:userData.name,conversation:conversation})}} style={styles.main}>
         <View style={styles.avatar}>
-            <Avatar  avatarStyle={{ borderWidth: 1, borderColor: 'green' }} rounded size={'large'} source={{uri: 'https://i.pinimg.com/736x/c8/ff/88/c8ff88ba5d7c2844bfbeaaa0837d1de5.jpg' }} />
+            <Avatar  avatarStyle={{ borderWidth: 1, borderColor: 'green' }} rounded size={'large'} source={{uri: userData.displayPicture }} />
         </View>
         <View style={styles.userDetail}>
             <Text style={styles.name}>{userData.name}</Text>

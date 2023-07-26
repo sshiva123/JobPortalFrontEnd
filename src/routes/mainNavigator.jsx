@@ -9,6 +9,10 @@ import InboxScreen from './inbox';
 import address from '../../address';
 import { SocketContext } from '../../SocketContext'
 import Job from './job';
+
+import RecruiterHome from './recruiterRoutes/recruiterHome';
+import RecruiterInbox from './recruiterRoutes/recruiterInbox';
+import RecruiterProfile from'./recruiterRoutes/recruiterProfile';
 const Tab = createBottomTabNavigator(); 
  function MainNavigator ({navigation}){
   const socket = useContext(SocketContext);
@@ -37,7 +41,7 @@ const Tab = createBottomTabNavigator();
             iconName = focused
               ? 'planet'
               : 'planet-outline';
-          } else if (route.name === 'Inbox') {
+          } else if (route.name === 'Inbox'  ) {
             iconName = focused ? 'chatbubbles' : 'chatbubbles-outline';
           }else if(route.name==='Jobs'){
             iconName = focused ? 'briefcase' : 'briefcase-outline';
@@ -55,7 +59,31 @@ const Tab = createBottomTabNavigator();
         <Tab.Screen name="Jobs" component={Job} options={{headerShown:false}}/>
         <Tab.Screen name="Inbox" component={InboxScreen} options={{headerShown:false}} />
         <Tab.Screen name="Profile" component={Profile} options={{headerShown:false}} />
-      </Tab.Navigator>:<Text>Recruiter Screen Banauna baki xa... hehe</Text>:navigation.replace("Splash")
+      </Tab.Navigator>:<Tab.Navigator screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          if (route.name === 'Home') {
+            iconName = focused
+              ? 'planet'
+              : 'planet-outline';
+          } else if (route.name === 'Inbox'  ) {
+            iconName = focused ? 'chatbubbles' : 'chatbubbles-outline';
+          }else if(route.name==='Jobs'){
+            iconName = focused ? 'briefcase' : 'briefcase-outline';
+          }else if(route.name==='Profile'){
+            iconName = focused ? 'person-circle-outline' : 'person-circle-outline';
+          }
+          // You can return any component that you like here!
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
+        tabBarLabel:route.name+" ",  
+      })}>
+        <Tab.Screen  name="Home" component={RecruiterHome} options={{headerShown:false}} />
+        <Tab.Screen name="Jobs" component={RecruiterHome} options={{headerShown:false}}/>
+        <Tab.Screen name="Inbox" component={RecruiterInbox} options={{headerShown:false}} />
+        <Tab.Screen name="Profile" component={RecruiterProfile} options={{headerShown:false}} /></Tab.Navigator>:navigation.replace("Splash")
      
   );
     

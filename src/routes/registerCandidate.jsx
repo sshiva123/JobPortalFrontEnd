@@ -66,8 +66,7 @@ const RegisterCandidate = ({ navigation }) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
-          Alert.alert(
+          if(data.message=="Success"){          Alert.alert(
             "Success",
             "Registration Successful",
             [
@@ -75,7 +74,10 @@ const RegisterCandidate = ({ navigation }) => {
               { text: "OK", onPress: () => navigation.navigate('Splash') }
             ],
             { cancelable: false }
-          );
+          );}
+          else{
+            Alert.alert(data.message)
+          }
   
         })
         .catch((error) => {
