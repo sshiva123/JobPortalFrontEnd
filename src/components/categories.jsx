@@ -4,7 +4,7 @@ import React from 'react'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const categoriesData = [
+export const categoriesData = [
   {
     name: "Accounting and Finance",
     image:require('../assets/images/categories/Accounting.jpg'),
@@ -75,63 +75,88 @@ const categoriesData = [
   {
     name: "Arts, Design, and Entertainment",
     image:require('../assets/images/categories/artsDesign.jpg'),
-    skills: ["Photoshop","Figma","Canva","Illustrator","Color Theorey","Video Editing",
-      "Visual arts",
-      "Performing arts",
-      "Writing",
-      "Music",
-      "Creativity",
-      "Communication",
-      "Problem-solving",
-      "Research",
-      "Writing",
-      "Other"
+    skills: ["Figma","Canva","Illustrator","Color Theorey","Video Editing",
+    "Graphic Design",
+    "UI/UX Design",
+    "Illustration",
+    "Photography",
+    "Video Editing",
+    "Animation",
+    "Creative Thinking",
+    "Visual Arts",
+    "Typography",
+    "Color Theory",
+    "Adobe Creative Suite (Photoshop, Illustrator, InDesign)",
+    "Sketching and Drawing",
+    "Knowledge of Design Principles",
+    "Communication Skills",
+    "Other"
     ],
   },
   {
     name: "Customer Service",
     image:require('../assets/images/categories/customerService.jpg'),
     skills: [
-      "Communication",
+      "Communication Skills",
       "Empathy",
       "Problem-solving",
+      "Active Listening",
+      "Conflict Resolution",
+      "Patience",
+      "Positive Attitude",
       "Teamwork",
-      "Customer satisfaction",
-      "Conflict resolution",
-      "Negotiation",
+      "Attention to Detail",
+      "Time Management",
+      "Product Knowledge",
+      "Ability to Handle Difficult Customers",
+      "Multi-tasking",
+      "Adaptability",
+      "Other"
     ],
   },
   {
     name: "Education and Training",
     image:require('../assets/images/categories/educationTraining.jpg'),
     skills: ["Mathematics","English","Science","History","Geography","Art","Music",
-      "Communication",
-      "Organization",
-      "Teaching",
-      "Training",
-      "Curriculum development",
-      "Instruction",
-      "Assessment",
-      "Evaluation",
+    "Teaching",
+    "Curriculum Development",
+    "Lesson Planning",
+    "Instructional Design",
+    "Assessment and Evaluation",
+    "Classroom Management",
+    "Communication Skills",
+    "Knowledge of Learning Theories",
+    "Adaptability",
+    "Organization Skills",
+    "Technology Integration",
+    "Problem-solving",
+    "Student Engagement"
     ],
   },
   {
     name: "Management",
     image:require('../assets/images/categories/management.jpg'),
-    skills:["Communication","MBA",
+    skills:[ "Leadership",
+    "Strategic Planning",
     "Decision-making",
-    "Leadership",
+    "Team Management",
+    "Project Management",
+    "Communication Skills",
+    "Financial Acumen",
+    "Analytical Skills",
     "Problem-solving",
-    "Accounting",
-    "Finance",
-    "Economics",
+    "Negotiation",
+    "Conflict Resolution",
+    "Change Management",
+    "Performance Management",
+    "Business Development"
 
     ]
   },
   {
     name: "Healthcare",
     image:require('../assets/images/categories/healthcare.jpg'),
-    skills:["MBBS","MD","Doctor","Dentist","Nurse","EMT","Pharmacist","Therapist","Laboratory","Radiographers","Nurse","Other"]
+    skills:["MBBS","MD","Doctor","Dentist","Nurse","EMT","Pharmacist","Therapist","Laboratory","Radiographers","Other"]
     
   },
   {
@@ -147,68 +172,156 @@ const categoriesData = [
       "Empathy",
       "Problem Solving",
       "Teamwork",
+      "Other"
     ],
   },
   {
+    "name": "Software Development",
+    "image": require('../assets/images/categories/softwareDevelopment.jpg'),
+    "skills": [
+      "Java",
+      "Python",
+      "C++",
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "React",
+      "Angular",
+      "Vue.js",
+      "Node.js",
+      "Express.js",
+      "Django",
+      "Flask",
+      "Ruby",
+      "Ruby on Rails",
+      "PHP",
+      "Laravel",
+      "ASP.NET",
+      "C#",
+      "Spring Boot",
+      "Hibernate",
+      "Go",
+      "Rust",
+      "Swift",
+      "Kotlin",
+      "Objective-C",
+      "TypeScript",
+      "jQuery",
+      "Bootstrap",
+      "WordPress",
+      "MySQL",
+      "PostgreSQL",
+      "MongoDB",
+      "Oracle",
+      "SQLite",
+      "Microsoft SQL Server",
+      "Firebase",
+      "Elasticsearch",
+      "Redis",
+      "Git",
+      "SVN",
+      "Maven",
+      "Gradle",
+      "Docker",
+      "Kubernetes",
+      "Jenkins",
+      "AWS",
+      "Azure",
+      "Google Cloud",
+      "Heroku",
+      "Apache Kafka",
+      "RabbitMQ",
+      "GraphQL",
+      "RESTful API",
+      "SOAP",
+      "OAuth",
+      "JSON",
+      "XML",
+      "JUnit",
+      "Selenium",
+      "Jest",
+      "Cucumber",
+      "Agile Methodologies",
+      "Scrum",
+      "Test-Driven Development (TDD)",
+      "Continuous Integration and Deployment (CI/CD)",
+      "DevOps",
+      "Microservices",
+      "Containerization",
+      "Data Structures",
+      "Algorithms",
+      "Object-Oriented Programming (OOP)",
+      "Functional Programming",
+      "Design Patterns",
+      "Software Development Life Cycle (SDLC)",
+      "Problem-solving",
+      "Debugging and Troubleshooting",
+      "Code Review",
+      "Collaboration and Teamwork"
+    ]
+  },
+  
+  {
     name: "Information Technology",
     image:require('../assets/images/categories/informationTechnology.jpg'),
-    skills: [ "Computer Science", "Technology Certification", "Professional Membership", "Technical and Analytical Skills", "Troubleshooting and Problem Solving", "Independent and Team Work", "Communication Skills","Microsoft Word","PowerPoint", "Learning and Adaptability", "JavaScript", "Python", "Go", "Java", "Kotlin", "C#", "PHP", "Swift", "R", "Ruby", "C", "C++", "TypeScript", "SQL", "Nix", "Scala", "Shell", "Rust", "Dart", "DM" ,"Django", "ExpressJS", "Laravel", "Ruby on Rails", "Flask", "React", "Angular", "Vue", "Svelte", "Next.js" ]
+    skills: [ "Computer Science", "Technology Certification", "Professional Membership", "Technical and Analytical Skills", "Troubleshooting and Problem Solving", "Independent and Team Work", "Communication Skills","Microsoft Word","PowerPoint", "Learning and Adaptability","Other" ]
   },
   {
     name: "Legal",
     image:require('../assets/images/categories/legal.jpg'),
-    skills:[ "Law", "Legal Research", "Legal Writing", "Litigation", "Contract Drafting", "Negotiation", "Mediation", "Arbitration", "Compliance", "Corporate Governance", "Intellectual Property", "Criminal Justice", "Family Law", "Tax Law", "Environmental Law", "Human Rights", "LexisNexis", "Westlaw" ]
+    skills:[ "Law", "Legal Research", "Legal Writing", "Litigation", "Contract Drafting", "Negotiation", "Mediation", "Arbitration", "Compliance", "Corporate Governance", "Intellectual Property", "Criminal Justice", "Family Law", "Tax Law", "Environmental Law", "Human Rights", "LexisNexis", "Westlaw","Other" ]
 
   },
   {
     name: "Logistics and Supply Chain",
     image:require('../assets/images/categories/logistics.jpg'),
-    skills: [ "Supply Chain Management", "Logistics", "Inventory Management", "Procurement", "Sourcing", "Warehousing", "Distribution", "Transportation", "Operations Management", "Customer Service", "Forecasting", "Planning", "Analysis", "Optimization", "ERP", "SAP", "Oracle", "Excel", "Power BI", "Tableau" ]
+    skills: [ "Supply Chain Management", "Logistics", "Inventory Management", "Procurement", "Sourcing", "Warehousing", "Distribution", "Transportation", "Operations Management", "Customer Service", "Forecasting", "Planning", "Analysis", "Optimization", "ERP", "SAP", "Oracle", "Excel", "Power BI", "Tableau","Other" ]
   },
   {
     name: "Manufacturing",
     image:require('../assets/images/categories/manufacturing.jpg'),
-    skills: [ "Engineering", "Design", "Production", "Quality Control", "Lean Manufacturing", "Six Sigma", "Kaizen", "5S", "Continuous Improvement", "Safety", "Maintenance", "Troubleshooting", "Machining", "Welding", "Assembly", "CAD", "SolidWorks", "AutoCAD", "PLC", "Robotics" ]
+    skills: [ "Engineering", "Design", "Production", "Quality Control", "Lean Manufacturing", "Six Sigma", "Kaizen", "5S", "Continuous Improvement", "Safety", "Maintenance", "Troubleshooting", "Machining", "Welding", "Assembly", "CAD", "SolidWorks", "AutoCAD", "PLC", "Robotics","Other" ]
   },
  
   {
     name: "Non-Profit",
     image:require('../assets/images/categories/nonProfit.jpg'),
-    skills:[]
+    skills:["Other"]
   },
   {
     name: "Sales",
     image:require('../assets/images/categories/sales.jpg'),
-    skills: [ "Sales", "Marketing", "Customer Service", "Communication", "Negotiation", "Persuasion", "Product Knowledge", "Presentation", "Closing", "Follow-up", "CRM", "Salesforce", "HubSpot", "Zoho", "Microsoft Office", "Google Workspace", "Social Media", "LinkedIn", "Email Marketing", "SEO" ]
+    skills: [ "Sales", "Marketing", "Customer Service", "Communication", "Negotiation", "Persuasion", "Product Knowledge", "Presentation", "Closing", "Follow-up", "CRM", "Salesforce", "HubSpot", "Zoho", "Microsoft Office", "Google Workspace", "Social Media", "LinkedIn", "Email Marketing", "SEO" ,"Other"]
   },
   {
     name: "Science and Technology",
     image:require('../assets/images/categories/scienceTechnology.jpg'),
-    skills: [ "Biology", "Chemistry", "Physics", "Mathematics", "Statistics", "Data Science", "Machine Learning", "Artificial Intelligence", "Computer Science", "Engineering", "Research", "Analysis", "Experimentation", "Innovation", "Critical Thinking", "Problem Solving", "Python", "R", "Matlab", "TensorFlow" ]
+    skills: [ "Biology", "Chemistry", "Physics", "Mathematics", "Statistics", "Data Science", "Machine Learning", "Artificial Intelligence", "Computer Science", "Engineering", "Research", "Analysis", "Experimentation", "Innovation", "Critical Thinking", "Problem Solving", "Python", "R", "Matlab", "TensorFlow","Other" ]
   },
   {
     name: "Security",
     image:require('../assets/images/categories/security.jpg'),
-    skills: [ "Security", "Cybersecurity", "Information Security", "Network Security", "Physical Security", "Risk Management", "Compliance", "Audit", "Incident Response", "Forensics", "Ethical Hacking", "Penetration Testing", "Malware Analysis", "Encryption", "Firewall", "VPN", "SIEM", "NIST", "ISO 27001", "CISSP" ]
+    skills: [ "Security", "Cybersecurity", "Information Security", "Network Security", "Physical Security", "Risk Management", "Compliance", "Audit", "Incident Response", "Forensics", "Ethical Hacking", "Penetration Testing", "Malware Analysis", "Encryption", "Firewall", "VPN", "SIEM", "NIST", "ISO 27001", "CISSP","Other" ]
   },
   {
     name: "Sports and Recreation",
     image:require('../assets/images/categories/sports.jpg'),
-    skills: [ "Sports", "Athletics", "Fitness", "Health", "Wellness", "Coaching", "Training", "Teaching", "Mentoring", "Leadership", "Teamwork", "Communication", "Motivation", "Strategy", "Performance", "Analysis", "Feedback", "Nutrition", "Injury Prevention", "Recovery" ]
+    skills: [ "Sports", "Athletics", "Fitness", "Health", "Wellness", "Coaching", "Training", "Teaching", "Mentoring", "Leadership", "Teamwork", "Communication", "Motivation", "Strategy", "Performance", "Analysis", "Feedback", "Nutrition", "Injury Prevention", "Recovery" ,"Other"]
   },
   {
     name: "Travel and Tourism",
     image:require('../assets/images/categories/travel.jpg'),
-    skills: [ "Travel", "Tourism", "Hospitality", "Customer Service", "Communication", "Interpersonal Skills", "Multilingual", "Cultural Awareness", "Geography", "History", "Planning", "Organizing", "Booking", "Sales", "Marketing", "Social Media", "Budgeting", "Problem Solving", "Creativity", "Flexibility" ]
+    skills: [ "Travel", "Tourism", "Hospitality", "Customer Service", "Communication", "Interpersonal Skills", "Multilingual", "Cultural Awareness", "Geography", "History", "Planning", "Organizing", "Booking", "Sales", "Marketing", "Social Media", "Budgeting", "Problem Solving", "Creativity", "Flexibility","Other" ]
   },
   {
     name:"Writing",
     image:require('../assets/images/categories/writing.jpg'),
-    skills: [ "Writing", "Editing", "Proofreading", "Grammar", "Spelling", "Punctuation", "Vocabulary", "Style", "Tone", "Voice", "Creativity", "Research", "Analysis", "Critical Thinking", "Storytelling", "Content Creation", "Blogging", "Copywriting", "SEO", "WordPress" ]
+    skills: [ "Writing", "Editing", "Proofreading", "Grammar", "Spelling", "Punctuation", "Vocabulary", "Style", "Tone", "Voice", "Creativity", "Research", "Analysis", "Critical Thinking", "Storytelling", "Content Creation", "Blogging", "Copywriting", "SEO", "WordPress","Other" ]
   },
   {
     name:"Others",
-    image:require('../assets/images/categories/others.jpg')
+    image:require('../assets/images/categories/others.jpg'),
+    skills:["Other"]
   }
 ];
 
@@ -240,10 +353,10 @@ const styles = StyleSheet.create({
     mainView:{
         
         marginRight:10,
-      
+        overflow:'hidden',
         width:windowWidth/2,
-        borderWidth:2,
-        borderRadius:5,
+        borderWidth:0,
+        borderRadius:10,
         borderColor:'gray',
         backgroundColor:'white'
     },

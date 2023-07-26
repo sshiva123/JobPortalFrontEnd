@@ -17,8 +17,11 @@ import MainNavigator from './src/routes/mainNavigator';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import Register from './src/routes/register';
 import ConnectionErrorPage from './src/routes/connectionError';
+import JobDisplay from './src/routes/jobDisplay';
 import { Screen } from 'react-native-screens';
 //import Register from './src/routes/register';
+import { SocketContext, socket } from './SocketContext';
+
 
 const Stack = createStackNavigator();
 
@@ -44,7 +47,7 @@ const SplashScreen = ({ navigation }) => {
         // do something with session
         console.log(session)
         if(session!=undefined && session!=''){
-          clearTimeout(timer);
+          //clearTimeout(timer);
           console.log("Session is not undefined.Fetching")
            fetch('http://'+address+':3000/detail/'+session, {
         method: 'GET',
@@ -97,9 +100,14 @@ const SplashScreen = ({ navigation }) => {
     return navigation.replace("ConnectionError");
   }
   useEffect(() => { 
+    try{
+     
       getUserDetail().then(response=>{
         responseReceived=true;
       });
+    }catch(err){
+      navigation.replace("ConnectionError");
+    }
   }, []);
 
   return (
@@ -112,9 +120,29 @@ const SplashScreen = ({ navigation }) => {
 
 
 const App = () => {
+  const [connected, setConnected] = useState(false);
+
+  useEffect(() => {
+    socket.on('connect', () => {
+      setConnected(true);
+    });
+    socket.on('disconnect', () => {
+      setConnected(false);
+    });
+    return () => {
+      socket.off('connect');
+      socket.off('disconnect');
+    };
+  }, []);
+
+  if (!connected) {
+   console.log("Disconnected")
+  }else{
+    console.log('Connected')
+  }
   return (
+    <SocketContext.Provider value={socket}>
     <Provider store={store} >
-      
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Splash" >
         <Stack.Screen name="Splash" component={SplashScreen} options={{headerShown:false}} />
@@ -127,6 +155,7 @@ const App = () => {
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>
+    </SocketContext.Provider>
   );
 };
 

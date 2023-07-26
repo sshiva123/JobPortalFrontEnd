@@ -1,12 +1,14 @@
 
 import React, { useState ,useEffect} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet,ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet,ActivityIndicator,Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import address from '../../address';
+import { Avatar } from 'react-native-elements';
 const ConnectionErrorPage = ({navigation}) => {
   const [isConnected, setIsConnected] = useState(false);
   const [retry,setRetry]=useState(false);
+  
   const handleRetry = () => {
     setRetry(true);
    setTimeout(() => {
@@ -36,11 +38,8 @@ const ConnectionErrorPage = ({navigation}) => {
         start={{ x: 0, y: 0 }} // Start point of gradient
         end={{ x: 1, y: 1 }} // End point of gradient
         style={styles.container}>
-        <MaterialCommunityIcons
-          name="wifi-off" // Icon for internet issue
-          size={200} // Size of icon
-          color="#fff" // Color of icon
-        />
+       
+        <Image style={{width:300,height:300,borderRadius:150}} source= { require('../assets/images/gif/noInternet.gif') } />
         <Text style={styles.text}>No internet connection</Text>
         <TouchableOpacity style={styles.button} onPress={retry?()=>{}:handleRetry}>
             {retry?<ActivityIndicator style={styles.buttonText}/>:<Text style={styles.buttonText}>Retry</Text>}

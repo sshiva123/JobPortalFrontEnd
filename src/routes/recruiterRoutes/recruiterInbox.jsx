@@ -1,16 +1,16 @@
 import { StyleSheet, Text, View,ActivityIndicator,ScrollView,TextInput,TouchableOpacity } from 'react-native'
 import React, { useContext,useState,useRef, useEffect } from 'react'
-import TabNavigatorHome from '../components/tabNavigatorHome'
+import TabNavigatorHome from '../../components/tabNavigatorHome'
 import { Provider,useDispatch ,useSelector} from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
-import { SocketContext } from '../../SocketContext';
-import address from '../../address';
-import MessageProfileLarge from '../components/messageProfileLarge';
+import { SocketContext } from '../../../SocketContext';
+import address from '../../../address';
+import MessageProfileLarge from '../../components/messageProfileLarge';
 import { useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useIsFocused } from '@react-navigation/native';
 import { Avatar, Tab} from 'react-native-elements';
-import { onBackPress } from '../components/backPressHandler';
+import { onBackPress } from '../../components/backPressHandler';
 const InboxScreen = (navigation) => {
   const dispatchRedux=useDispatch();
   const Stack=createStackNavigator();

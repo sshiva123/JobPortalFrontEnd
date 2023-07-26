@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { View, Text, TextInput,StyleSheet,TouchableOpacity,ScrollView,Dimensions,Image} from 'react-native';
+import { View, Text, TextInput,StyleSheet,ScrollView,TouchableOpacity, Dimensions,Image, ActivityIndicator} from 'react-native';
  import { useDispatch,useSelector } from 'react-redux';
  import { addUser } from '../store/slices/userSlice';
  import EncryptedStorage from 'react-native-encrypted-storage';
@@ -12,19 +12,34 @@ import JobComponentLarge from '../components/JobComponentLarge';
 import Categories from '../components/categories';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+import Job from './job'
+import { createStackNavigator } from '@react-navigation/stack';
+import address from '../../address';
+//import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const HomeScreen = ({navigation},async) => {
+    
     const dispatch = useDispatch();
     const [search, setSearch] = useState('');
+    const [recommendedJobs,setRecommendedJobs]=useState([]);
     const data=  useSelector(state=>{
       return state.user.userData;
     })
+   async function getRecommended(){
+      const rec=await fetch('http://'+address+':3000/jobs/recommended/'+data._id);
+      const recJson=await rec.json();
+      setRecommendedJobs(recJson);
+      return;
+    }
+    
     function searchF(){
       console.log("searching "+search);
     }
-    
+    useEffect(()=>{
+      getRecommended();
+    },[])
     return (
-    <ScrollView style={{flex:1}} contentContainerStyle={{}}>
+    <ScrollView style={{flex:1}}  contentContainerStyle={{}}>
      
      <View style={{alignItems:'center',width:windowWidth,height:0.95*windowHeight}}>
       <View style={{flex:1,width:'95%', flexDirection: 'row', justifyContent: 'space-between',alignItems:'center' }}>
@@ -45,18 +60,25 @@ const HomeScreen = ({navigation},async) => {
           <Icon name="search"  style={{fontSize:25,alignSelf:'center'}}/>
         </TouchableOpacity>
       </View>
-      <View style={{flex:1,backgroundColor:"#005B6C",paddingVertical:20,paddingHorizontal:10, borderRadius:10}}>
-        <Text style={{marginHorizontal:0,fontSize:20,paddingVertical:10, fontWeight:'bold',color:'white'}}>Categories</Text>
+      <View style={{flex:1,backgroundColor:"#051336",paddingVertical:10,paddingHorizontal:10, borderRadius:10}}>
+        <Text style={{marginHorizontal:0,fontSize:20,paddingVertical:2, fontWeight:'bold',color:'white'}}>Categories</Text>
         <ScrollView horizontal pagingEnabled snapToAlignment='center' showsHorizontalScrollIndicator={true}>
         <Categories/>
         </ScrollView>
       </View>
       </View>
-      <View style={{flex:6,backgroundColor:'red',width:'95%',margin:10,borderRadius:10}}>
+      <View style={{flex:6,width:'95%',margin:10,borderRadius:10}}>
         <TabNavigatorHome style={{flex:1}}/>
       </View>
      </View>
-    <JobComponentLarge/>
+     
+     <Text style={{fontSize:23,fontWeight:'bold',width:'95%',alignSelf:'center'}}>Recommended</Text>
+     {
+      recommendedJobs.jobs?recommendedJobs.jobs.map(recommendedJob=>{
+        return(<JobComponentLarge key={recommendedJob._id} navigation={navigation} jobData={recommendedJob}/>)
+      }):<ActivityIndicator />
+     }
+    
     </ScrollView>
     );
   };
@@ -82,4 +104,13 @@ const HomeScreen = ({navigation},async) => {
     borderRadius:5,
     }
   });
-  export default HomeScreen;
+  const HomeScreenStack=({navigation})=>{
+    const Stack=createStackNavigator()
+    return(
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="HomeScreen" component={HomeScreen}/>
+      </Stack.Navigator>
+      
+    )
+  }
+  export default HomeScreenStack;
